@@ -20,9 +20,6 @@ time.sleep(0.1)
 # Generate an empty old frame
 old_image = None
 
-flowToDisp = np.zeros([heightPx, widthPx, 3])
-flowToDisp[:,:,1] = 255
-
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# grab the raw NumPy array representing the image, then initialize the timestamp
@@ -40,9 +37,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	# Display the optical flow 
 	pop_pop, angles = cv2.cartToPolar(flow[...,0], flow[...,1]) # It's called pop_pop because "pop pop is magnitude"
 
-	flowToDisp[:,:,0] = angles *180/np.pi/2
+
+	flowToDisp = np.zeros_like(frame)
+
+	flowToDisp[:,:,0] = angles*180/np.pi/2
+	flowToDisp[:,:,1] = 255
 	flowToDisp[:,:,2] = cv2.normalize(pop_pop, None, 0, 255, cv2.NORM_MINMAX)
-	toTheDisplay = cv2.cvtColor(flowToDisp.astype(np.float32), cv2.COLOR_HSV2BGR)
+
+	toTheDisplay = cv2.cvtColor(flowToDisp, cv2.COLOR_HSV2BGR)
 	# # show the frame
 	# cv2.imshow("Frame", image)
 	cv2.imshow("Optical Flow", toTheDisplay)
