@@ -27,7 +27,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	image = frame.array[:,:,0] # Come on, we can do better!
 	# Probably something along those lines: 
 	image = cv2.cvtColor(frame.array, cv2.COLOR_BGR2GRAY)
-	
+
 	if old_image is None: 
 		old_image = image
 
@@ -38,7 +38,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 	pop_pop, angles = cv2.cartToPolar(flow[...,0], flow[...,1]) # It's called pop_pop because "pop pop is magnitude"
 
 
-	flowToDisp = np.zeros_like(frame)
+	flowToDisp = np.zeros_like(frame.array)
 
 	flowToDisp[:,:,0] = angles*180/np.pi/2
 	flowToDisp[:,:,1] = 255
