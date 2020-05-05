@@ -3,7 +3,7 @@ import time
 import cv2
 import numpy as np
 
-def computeLinesFromGRAY(inputImg, edgeThreshold, houghP = true, scale = 1, delta = 0): 
+def computeLinesFromGRAY(inputImg, edgeThreshold, houghP = True, scale = 1, delta = 0): 
 
 
 	ddepth = cv2.CV_64F
@@ -24,10 +24,10 @@ def computeLinesFromGRAY(inputImg, edgeThreshold, houghP = true, scale = 1, delt
 
 	
 	if houghP: 
-		linesP = cv2.HoughLinesP(edgeImg.astype('uint8'), 1, np.pi / 180, 50, None, 50, 10) # Corresponds to 
+		lines = cv2.HoughLinesP(edgeImg.astype('uint8'), 1, np.pi / 180, 50, None, 50, 10) # Corresponds to 
 		if lines is not None: 
 			for oneLine in range(0,len(lines)): 
-				currentLine = linesP[oneLine][0]
+				currentLine = lines[oneLine][0]
 				cv2.line(toDisplay, (currentLine[0], currentLine[1]), (currentLine[2], currentLine[3]), (0,0,255), 3, cv2.LINE_AA)
 
 	else: 
